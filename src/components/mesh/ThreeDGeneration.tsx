@@ -36,7 +36,7 @@ const ThreeDGeneration: React.FC = () => {
 
     useEffect(() => {
         if (!task?.taskIdPreview && !task?.taskIdRefine) return;
-        const socket = io("wss://api.logicai.technology/");
+        const socket = io("wss://api.cypherai.app/");
         const eventName = task.taskIdRefine || task.taskIdPreview!;
         socket.on(eventName, (data: { status: string }) => {
             setTask((t) => t ? {...t, state: data.status} : t);

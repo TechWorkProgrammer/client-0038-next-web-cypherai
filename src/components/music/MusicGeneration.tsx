@@ -43,7 +43,7 @@ const MusicGeneration: React.FC = () => {
     const router = useRouter();
     useEffect(() => {
         if (!task?.taskId) return;
-        const socket = io(`wss://api.logicai.technology/`);
+        const socket = io(`wss://api.cypherai.app/`);
         const listener = (data: { status: string }) => {
             setTask((t) => t ? {...t, state: data.status} : t);
         };
