@@ -47,7 +47,7 @@ const ProductionSection = () => {
                 <div className="flex flex-row gap-4 w-full justify-center items-center mt-6">
                     <Button
                         label="Discovery"
-                        onClick={() => router.push("/discovery")}
+                        onClick={() => router.push("/discover")}
                         icon={<FaRegCompass/>}
                         iconPosition="left"
                         color="secondary"
@@ -55,7 +55,7 @@ const ProductionSection = () => {
                     />
                     <Button
                         label="Generate"
-                        onClick={() => router.push("/feature")}
+                        onClick={() => router.push("/service")}
                         icon={<FaMagic/>}
                         iconPosition="left"
                         color="primary"
