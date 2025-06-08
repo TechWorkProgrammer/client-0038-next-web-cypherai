@@ -5,21 +5,20 @@ interface LoaderProps {
     size?: "small" | "medium" | "large";
 }
 
-const Loader: React.FC<LoaderProps> = ({
-                                           size = "medium",
-                                       }) => {
+const Loader: React.FC<LoaderProps> = ({size = "medium"}) => {
     const sizeClass =
-        size === "small" ? "w-8 h-8" : size === "large" ? "w-20 h-20" : "w-14 h-14";
+        size === "small"
+            ? "w-8 h-8"
+            : size === "large"
+                ? "w-32 h-32"
+                : "w-16 h-16";
     const sizeValue =
-        size === "small" ? 48 : size === "large" ? 80 : 72;
+        size === "small" ? 48 : size === "large" ? 128 : 72;
 
     return (
-        <div
-            role="status"
-            className={`flex justify-center items-center ${sizeClass}`}
-        >
+        <div role="status" className={`flex justify-center items-center ${sizeClass}`}>
             <Image
-                src="/icon.png"
+                src="/assets/gif/loader.gif"
                 alt="Loading..."
                 width={sizeValue}
                 height={sizeValue}

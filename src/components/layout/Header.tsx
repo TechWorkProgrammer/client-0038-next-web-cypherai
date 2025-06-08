@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {useRouter} from "next/router";
 import Image from "next/image";
-import {FaTimes} from "react-icons/fa";
 import Link from "next/link";
 
 const Header: React.FC = () => {
@@ -28,11 +27,6 @@ const Header: React.FC = () => {
         {label: "Product", path: "#product"},
         {label: "Studio", path: "#studio"},
         {label: "Pricing", path: "#pricing"},
-        {
-            label: "Web3",
-            path: "https://docs.cypherai.app/cypher-ai-token/tokenomic",
-        },
-        {label: "Documentation", path: "https://docs.cypher.ai/"},
     ];
 
     const handleNavigation = (path: string) => {
@@ -74,7 +68,7 @@ const Header: React.FC = () => {
                             </span>
                         </button>
 
-                        <ul className="hidden lg:flex space-x-6">
+                        <ul className="flex space-x-6">
                             {navItems.map((item) => (
                                 <li key={item.label}>
                                     {item.path.startsWith("http") ? (
@@ -98,74 +92,9 @@ const Header: React.FC = () => {
                                 </li>
                             ))}
                         </ul>
-
-                        <button
-                            onClick={() => setIsNavOpen(true)}
-                            className="lg:hidden text-white focus:outline-none"
-                        >
-                            <svg
-                                className="w-6 h-6"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth={2}
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M4 6h16M4 12h16M4 18h16"
-                                />
-                            </svg>
-                        </button>
                     </div>
                 </nav>
             </header>
-
-            {isNavOpen && (
-                <div
-                    className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-                    onClick={() => setIsNavOpen(false)}
-                />
-            )}
-
-            <div
-                className={`fixed top-0 right-0 h-full w-64 bg-primary-900 z-60 transform transition-transform duration-300 ${
-                    isNavOpen ? "translate-x-0" : "translate-x-full"
-                } lg:hidden`}
-            >
-                <ul className="flex flex-col h-full p-6 space-y-6">
-                    <li className="self-end">
-                        <button
-                            onClick={() => setIsNavOpen(false)}
-                            className="text-white hover:text-primary-500 transition-colors"
-                        >
-                            <FaTimes size={24}/>
-                        </button>
-                    </li>
-                    {navItems.map((item) => (
-                        <li key={item.label}>
-                            {item.path.startsWith("http") ? (
-                                <a
-                                    href={item.path}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="w-full text-left text-white hover:text-accent-600 transition-colors text-lg"
-                                >
-                                    {item.label}
-                                </a>
-                            ) : (
-                                <Link
-                                    href={item.path}
-                                    className="w-full text-left text-white hover:text-accent-600 transition-colors text-lg"
-                                    onClick={() => handleNavigation(item.path)}
-                                >
-                                    {item.label}
-                                </Link>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            </div>
         </>
     );
 };

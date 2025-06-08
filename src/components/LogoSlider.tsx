@@ -47,7 +47,7 @@ const LogoSlider: React.FC<LogoSliderProps> = ({
     return (
         <motion.section
             id="product"
-            className="flex w-full h-18 bg-background-dark overflow-hidden items-center justify-center"
+            className="flex w-full bg-background-dark overflow-hidden items-center justify-center"
             initial={{opacity: 0}}
             whileInView={{opacity: 1}}
             viewport={{once: false}}

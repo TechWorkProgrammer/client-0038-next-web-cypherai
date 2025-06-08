@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import Button from "@/components/common/Button";
 import Modal from "@/components/common/Modal";
 import {useAlert} from "@/context/Alert";
-import {useLoader} from "@/context/Loader";
 import {
     FaRegPaperPlane,
     FaPlay, FaRegEye,
@@ -13,6 +12,7 @@ import {getAccessToken} from "@/utils/user";
 import api from "@/utils/axios";
 import {IoCodeSharp} from "react-icons/io5";
 import {HiOutlineDownload} from "react-icons/hi";
+import Loader from "@/components/common/Loader";
 
 interface GeneratedFile {
     fileName: string;
@@ -28,7 +28,6 @@ const ProgramGeneration: React.FC = () => {
     const [reviewSrcDoc, setReviewSrcDoc] = useState<string>("");
 
     const alert = useAlert();
-    const loader = useLoader();
 
     const handleGenerate = async () => {
         if (!prompt.trim()) {
@@ -43,7 +42,6 @@ const ProgramGeneration: React.FC = () => {
 
         try {
             setIsLoading(true);
-            loader(true);
 
             const res = await api.post(`/code/generate`, {
                 prompt: prompt.trim(),
@@ -63,7 +61,6 @@ const ProgramGeneration: React.FC = () => {
             alert("Opps...", err.response?.data?.message || "Failed to generate code. Try again later", "error");
         } finally {
             setIsLoading(false);
-            loader(false);
         }
     };
 
@@ -159,7 +156,9 @@ const ProgramGeneration: React.FC = () => {
                         />
                     </div>
 
-                    {files.length > 0 && (
+                    {isLoading
+                        ? <div className="w-full flex justify-center items-center"><Loader/></div>
+                        : files.length > 0 && (
                         <div className="rounded-lg flex-1 flex flex-col">
                             <h3 className="md:text-xl font-semibold mb-4">Generated Files</h3>
                             <div className="space-y-3 overflow-auto h-fit">
@@ -231,14 +230,40 @@ const ProgramGeneration: React.FC = () => {
             )}
 
             {isReviewOpen && (
-                <Modal onClose={() => setIsReviewOpen(false)} title={"App Preview"}>
+                <div className="fixed inset-0 z-50 flex items-end justify-center">
+                    <div
+                        className="absolute inset-0 bg-black/50"
+                        onClick={() => setIsReviewOpen(false)}
+                    />
+                    <div className="relative w-full h-[80vh] bg-background-dark rounded overflow-hidden">
+                        <div className="flex justify-end bg-background-light p-2 space-x-2">
+                            <button
+                                onClick={() => {
+                                    const blob = new Blob([reviewSrcDoc], {type: "text/html"});
+                                    const url = URL.createObjectURL(blob);
+                                    window.open(url, "_blank");
+                                }}
+                                className="px-3 py-1 bg-primary-600 rounded text-white hover:bg-primary-500"
+                            >
+                                Open in New Tab
+                            </button>
+                            <button
+                                onClick={() => setIsReviewOpen(false)}
+                                className="px-3 py-1 bg-red-600 rounded text-white"
+                            >
+                                Close
+                            </button>
+                        </div>
+
                         <iframe
                             title="App Preview"
                             srcDoc={reviewSrcDoc}
-                            className="w-full h-full rounded-lg"
+                            className="w-full h-full"
                         />
-                </Modal>
+                    </div>
+                </div>
             )}
+
         </div>
     );
 };

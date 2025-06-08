@@ -30,8 +30,8 @@ const Missing: React.FC = () => {
                 </p>
                 <div className="flex justify-center w-full">
                     <Button
-                        label="Back to Discovery"
-                        onClick={() => router.push('/discovery')}
+                        label="Back to Discover"
+                        onClick={() => router.push('/discover')}
                         color="primary"
                         icon={<FaArrowLeft size={16}/>}
                         iconPosition="left"

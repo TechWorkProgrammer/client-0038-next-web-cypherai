@@ -21,7 +21,7 @@ const StudioSection = () => {
 
             <div className="flex flex-col gap-1 items-center lg:items-start lg:w-1/2 text-center lg:text-left z-10">
                 <motion.h1
-                    className="text-lg sm:text-2xl lg:text-4xl font-extrabold bg-clip-text text-white pt-12"
+                    className="text-2xl sm:text-4xl lg:text-6xl font-extrabold bg-clip-text text-white pt-12"
                     initial={{y: -50, opacity: 0}}
                     whileInView={{y: 0, opacity: 1}}
                     viewport={{once: false}}
@@ -30,7 +30,7 @@ const StudioSection = () => {
                     Revolutionize 3D Production
                 </motion.h1>
                 <motion.h1
-                    className="text-lg sm:text-2xl lg:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-accent-500 via-accent-400 to-accent-600"
+                    className="text-2xl sm:text-4xl lg:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-accent-500 via-accent-400 to-accent-600"
                     initial={{y: -50, opacity: 0}}
                     whileInView={{y: 0, opacity: 1}}
                     viewport={{once: false}}
@@ -39,7 +39,7 @@ const StudioSection = () => {
                     and Authorship
                 </motion.h1>
                 <motion.p
-                    className="text-sm sm:text-md lg:text-lg text-secondary-800 leading-relaxed max-w-xl mb-4"
+                    className="text-md sm:text-lg lg:text-2xl text-secondary-800 leading-relaxed max-w-xl mb-4"
                     initial={{y: 50, opacity: 0}}
                     whileInView={{y: 0, opacity: 1}}
                     viewport={{once: false}}
@@ -58,7 +58,7 @@ const StudioSection = () => {
                 >
                     <Button
                         label="Generate Now"
-                        onClick={() => router.push("/feature")}
+                        onClick={() => router.push("/service")}
                         color="primary"
                         icon={<FaMagic/>}
                     />
@@ -74,10 +74,10 @@ const StudioSection = () => {
                     transition={{duration: 0.8}}
                 >
                     <Image
-                        src="/assets/images/studio.png"
+                        src="/assets/images/studio.webp"
                         alt="3D Creation"
-                        fill
-                        sizes="(max-width: 768px) 90vw, (max-width: 1200px) 60vw, 50vw"
+                        width={1659}
+                        height={2058}
                         style={{objectFit: "cover"}}
                         priority
                     />

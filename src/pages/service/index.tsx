@@ -45,7 +45,7 @@ const featureData = [
 const Feature: React.FC = () => {
     return (
         <SidebarLayout>
-            <div className="mb-10 md:mb-12">
+            <div className="mb-10 md:mb-12 py-6">
                 <h1 className="text-2xl md:text-4xl font-bold text-white text-center drop-shadow-lg mb-2">
                     Transform Ideas into Reality with AI-Powered Creativity
                     <span

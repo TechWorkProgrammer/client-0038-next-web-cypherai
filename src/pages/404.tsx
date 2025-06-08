@@ -9,7 +9,7 @@ const Custom404: React.FC = () => {
 
     return (
         <div
-            className="flex items-center justify-center min-h-[50vh] px-4">
+            className="flex items-center justify-center h-screen px-4">
             <div
                 className="text-center space-y-6 p-6 md:p-8 max-w-md w-full">
                 <div className="flex justify-center">

@@ -21,7 +21,7 @@ const dummyNotifications: Notification[] = [
         description: "You can now generate music from text. Give it a try!",
         timestamp: "1 day ago",
         isRead: true,
-        actionLink: "https://cypherai.io/music",
+        actionLink: "https://cypherai.app/music",
     },
     {
         id: 3,

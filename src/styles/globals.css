@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 @layer utilities {
-  .bg-portrait-repeat {
-    background-image: url('/assets/images/bg-landing.png');
-    background-color: #121312;
-    background-size: 100% auto;
-    background-position: top center;
-  }
+    .bg-portrait-repeat {
+        background-image: url('/assets/images/bg-landing.webp');
+        background-color: #121312;
+        background-size: 100% auto;
+        background-position: top center;
+    }
 }
 
 
@@ -25,37 +25,6 @@
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
-
-input:not([type="date"]):-webkit-autofill,
-textarea:-webkit-autofill,
-select:-webkit-autofill,
-input:not([type="date"]):-webkit-autofill:hover,
-textarea:-webkit-autofill:hover,
-select:-webkit-autofill:hover,
-input:not([type="date"]):-webkit-autofill:focus,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill:focus {
-    background-color: var(--input-bg) !important;
-    -webkit-text-fill-color: var(--input-text) !important;
-    color: var(--input-text) !important;
-    box-shadow: 0 0 0 1000px var(--input-bg) inset !important;
-    transition: background-color 5000s ease-in-out 0s !important;
-}
-
-input:not([type="date"]):-moz-autofill,
-textarea:-moz-autofill,
-select:-moz-autofill,
-input:not([type="date"]):-moz-autofill:hover,
-textarea:-moz-autofill:hover,
-select:-moz-autofill:hover,
-input:not([type="date"]):-moz-autofill:focus,
-textarea:-moz-autofill:focus,
-select:-moz-autofill:focus {
-    background-color: var(--input-bg) !important;
-    color: var(--input-text) !important;
-    box-shadow: 0 0 0 1000px var(--input-bg) inset !important;
-    transition: background-color 5000s ease-in-out 0s !important;
 }
 
 @keyframes walk {

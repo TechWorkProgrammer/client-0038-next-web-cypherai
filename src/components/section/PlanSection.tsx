@@ -38,7 +38,7 @@ const PlanSection = () => {
         >
             <div className="absolute inset-0"></div>
             <motion.h1
-                className="text-4xl font-bold mb-4 text-white text-center z-10"
+                className="text-4xl md:text-5xl font-bold mb-4 text-white text-center z-10"
                 initial={{y: -50, opacity: 0}}
                 whileInView={{y: 0, opacity: 1}}
                 viewport={{once: false}}
@@ -47,7 +47,7 @@ const PlanSection = () => {
                 Pricing
             </motion.h1>
             <motion.h5
-                className="text-1xl font-bold mb-12 text-secondary-600 text-center z-10"
+                className="text-xl font-bold mb-12 text-secondary-600 text-center z-10"
                 initial={{y: -50, opacity: 0}}
                 whileInView={{y: 0, opacity: 1}}
                 viewport={{once: false}}
