@@ -36,12 +36,18 @@ export const WalletProvider: React.FC<{ children: ReactNode }> = ({children}) =>
     const API = "/auth";
 
     useEffect(() => {
-        const u = getUser();
-        if (u) {
-            setConnectedWallet(u.walletType);
-            setWalletAddress(u.address);
-        }
-    }, []);
+        const interval = setInterval(() => {
+            const u = getUser();
+            if (!u && connectedWallet) {
+                setConnectedWallet(null);
+                setWalletAddress(null);
+            } else if (u && u.address !== walletAddress) {
+                setConnectedWallet(u.walletType);
+                setWalletAddress(u.address);
+            }
+        }, 1000);
+        return () => clearInterval(interval);
+    }, [connectedWallet, walletAddress]);
 
     const connectWallet = async (
         walletName: string,

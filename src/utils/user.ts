@@ -8,7 +8,7 @@ export interface UserData {
   walletType: string;
 }
 
-const USER_KEY = "LogicAI_USER";
+const USER_KEY = "CypherAI_AUTH";
 
 const isBrowser = (): boolean => typeof window !== "undefined";
 

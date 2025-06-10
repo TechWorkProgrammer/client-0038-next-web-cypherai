@@ -42,10 +42,10 @@ const PromptExample: React.FC = () => {
                     <div
                         className="absolute bottom-0 w-full mx-auto px-4 py-3 rounded-lg shadow-xl text-center"
                     >
-                        <p className="font-bold mb-1 text-lg md:text-xl lg:text-2xl">
+                        <p className="font-bold mb-1 text-sm md:text-xl lg:text-2xl">
                             Prompt
                         </p>
-                        <p className="font-semibold text-md md:text-lg lg:text-xl">
+                        <p className="font-semibold text-xs md:text-lg lg:text-xl">
                             {promptText}
                         </p>
                     </div>

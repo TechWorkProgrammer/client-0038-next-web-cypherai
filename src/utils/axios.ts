@@ -3,8 +3,8 @@ import {
     getAccessToken,
     getRefreshToken,
     updateTokens,
-    clearUser,
 } from '@/utils/user';
+import {disconnectWallet} from "@/utils/wallet";
 
 const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -61,15 +61,15 @@ api.interceptors.response.use(
                 axios
                     .post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/refresh`, {refreshToken})
                     .then(({data}) => {
-                        const {accessToken, refreshToken: newRefresh} = data.data;
-                        updateTokens(accessToken, newRefresh);
+                        const {accessToken, refreshToken} = data.data;
+                        updateTokens(accessToken, refreshToken);
                         processQueue(null, accessToken);
                         originalRequest.headers!['Authorization'] = `Bearer ${accessToken}`;
                         resolve(api(originalRequest));
                     })
                     .catch((refreshErr) => {
                         processQueue(refreshErr, null);
-                        clearUser();
+                        disconnectWallet().then();
                         reject(refreshErr);
                     })
                     .finally(() => {

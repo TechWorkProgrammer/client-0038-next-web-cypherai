@@ -3,8 +3,6 @@ import {useAlert} from "@/context/Alert";
 import {MeshData} from "@/types/mesh";
 import MeshCard from "@/components/mesh/MeshCard";
 import Pagination from "@/components/common/Pagination";
-import {useRouter} from "next/router";
-import {AiOutlineArrowLeft} from "react-icons/ai";
 import Loader from "@/components/common/Loader";
 import api from "@/utils/axios";
 
@@ -14,23 +12,22 @@ const MeshAssets: React.FC = () => {
     const [itemsPerPage, setItemsPerPage] = useState(12);
     const [isLoading, setIsLoading] = useState(true);
     const alert = useAlert();
-    const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
-    const router = useRouter();
 
-    const fetchUserMeshes = useCallback(async () => {
+    const fetchData = useCallback(async () => {
+        setIsLoading(true);
         try {
-            const response = await api.get(`${API_BASE_URL}/mesh/user`);
+            const response = await api.get(`/mesh/user`);
             setMeshList(response.data.data);
         } catch (error: any) {
-            alert(error.response?.data?.message || "Failed to fetch mesh data.", "error");
+            alert("Opps...", error.response?.data?.message || "Failed to fetch mesh data.", "error");
         } finally {
             setIsLoading(false);
         }
-    }, [alert, API_BASE_URL]);
+    }, [alert]);
 
     useEffect(() => {
-        fetchUserMeshes().then();
-    }, [fetchUserMeshes]);
+        fetchData().then();
+    }, [fetchData]);
 
     const sortedMeshList = [...meshList].sort(
         (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
@@ -57,16 +54,6 @@ const MeshAssets: React.FC = () => {
     return (
         <div className="w-full h-full flex flex-col gap-4 relative justify-between">
             <div className="flex flex-col gap-4">
-                <button
-                    onClick={() => router.back()}
-                    className="flex items-center gap-2 text-secondary-700 bg-primary-800 transition p-2 rounded-md w-fit mt-10 md:mt-0"
-                >
-                    <AiOutlineArrowLeft className="w-5 h-5"/>
-                    Back
-                </button>
-
-                <h2 className="text-2xl font-bold text-center text-white">My Mesh Assets</h2>
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {currentMeshes.map((mesh) => (
                         <MeshCard key={mesh.id} mesh={mesh}/>

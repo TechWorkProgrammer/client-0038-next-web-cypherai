@@ -1,25 +1,15 @@
 import React, {useState} from "react";
 import {useRouter} from "next/router";
-import {
-    FaBell,
-    FaUser,
-    FaMusic,
-    FaCode,
-    FaGamepad,
-    FaGlobeAsia, FaTelegram,
-} from "react-icons/fa";
-
 import {FaMedium} from "react-icons/fa6";
-import {Md3dRotation} from "react-icons/md";
-import {RiDashboardHorizontalLine, RiNftLine, RiTokenSwapLine} from "react-icons/ri";
+import {MdPerson} from "react-icons/md";
+import {RiTelegram2Fill} from "react-icons/ri";
 import Image from "next/image";
-
 import NotificationModal from "@/components/common/NotificationModal";
 import WalletConnectModal from "@/components/common/WalletConnectModal";
-import {FiHome} from "react-icons/fi";
-import {LuNotebookPen} from "react-icons/lu";
 import {FaXTwitter} from "react-icons/fa6";
 import {useWallet} from "@/context/Wallet";
+import {GoBellFill} from "react-icons/go";
+import Icon from "@/components/common/Icon";
 
 
 interface SidebarProps {
@@ -38,20 +28,20 @@ const Sidebar: React.FC<SidebarProps> = ({
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const {connectedWallet} = useWallet();
     const mainNav = [
-        {label: "Home", path: "/", icon: <FiHome size={18}/>},
-        {label: "Service", path: "/service", icon: <LuNotebookPen size={18}/>},
-        {label: "Discover", path: "/discover", icon: <RiDashboardHorizontalLine size={18}/>},
-        {label: "My Assets", path: "/assets", icon: <RiTokenSwapLine size={18}/>},
+        {label: "Home", path: "/", icon: <Icon name="home" className="w-5 h-5"/>},
+        {label: "Service", path: "/service", icon: <Icon name="service" className="w-5 h-5"/>},
+        {label: "Discover", path: "/discover", icon: <Icon name="apps" className="w-5 h-5"/>},
+        {label: "My Assets", path: "/assets", icon: <Icon name="assets" className="w-5 h-5"/>},
     ];
     const textNav1 = [
-        {label: "Text to 3D", path: "/3d", icon: <Md3dRotation size={18}/>},
-        {label: "Text to Music", path: "/music", icon: <FaMusic size={18}/>},
-        {label: "Text to Code", path: "/program", icon: <FaCode size={18}/>},
+        {label: "Text to 3D", path: "/3d", icon: <Icon name="3d" className="w-5 h-5"/>},
+        {label: "Text to Music", path: "/music", icon: <Icon name="music" className="w-5 h-5"/>},
+        {label: "Text to Code", path: "/program", icon: <Icon name="code" className="w-5 h-5"/>},
     ];
     const textNav2 = [
-        {label: "Text to Metaverse", path: "/metaverse", icon: <FaGlobeAsia size={18}/>},
-        {label: "Text to Game", path: "/game", icon: <FaGamepad size={18}/>},
-        {label: "Text to NFT", path: "/nft", icon: <RiNftLine size={18}/>},
+        {label: "Text to Metaverse", path: "/metaverse", icon: <Icon name="metaverse" className="w-5 h-5"/>},
+        {label: "Text to Game", path: "/game", icon: <Icon name="game" className="w-5 h-5"/>},
+        {label: "Text to NFT", path: "/nft", icon: <Icon name="nft" className="w-5 h-5"/>},
     ];
     const allNavGroups = [mainNav, textNav1, textNav2];
     const handleNavigation = (path: string) => {
@@ -117,13 +107,13 @@ const Sidebar: React.FC<SidebarProps> = ({
                         </React.Fragment>
                     ))}
                 </div>
-                <div className="border-t border-secondary-500 px-2 py-2 flex flex-col gap-2">
+                <div className="border-t border-secondary-500 px-2 py-2 flex flex-col gap-2 font-semibold text-md">
                     {connectedWallet && (
                         <button
                             onClick={() => setIsNotifOpen(true)}
                             className="flex items-center w-full px-4 py-2 transition hover:bg-accent-500/10 text-secondary rounded"
                         >
-                            <FaBell size={18}/>
+                            <GoBellFill size={18}/>
                             <span className="ml-3">Notification</span>
                         </button>
                     )}
@@ -131,7 +121,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                         onClick={() => setIsProfileOpen(true)}
                         className="flex items-center w-full px-4 py-2 transition hover:bg-accent-500/10 text-secondary rounded"
                     >
-                        <FaUser size={18}/>
+                        <MdPerson size={18}/>
                         <span className="ml-3">
                           {connectedWallet ? "Your Profile" : "Connect Wallet"}
                         </span>
@@ -139,16 +129,16 @@ const Sidebar: React.FC<SidebarProps> = ({
                 </div>
                 <div className="border-t border-secondary-500">
                     <div className="flex space-x-4 w-full justify-between px-4 md:px-6 py-6">
-                        <a href="https://t.me/LogicAIETH" target="_blank" rel="noopener noreferrer"
-                           className="text-secondary-700 hover:text-accent-500 transition bg-primary-800 rounded p-3">
-                            <FaTelegram size={24}/>
+                        <a href="https://t.me/" target="_blank" rel="noopener noreferrer"
+                           className="text-secondary-900 hover:text-accent-500 transition bg-primary-800 rounded p-3">
+                            <RiTelegram2Fill size={24}/>
                         </a>
-                        <a href="https://x.com/logicaiofficial" target="_blank" rel="noopener noreferrer"
-                           className="text-secondary-700 hover:text-accent-500 transition bg-primary-800 rounded p-3">
+                        <a href="https://x.com/cypheraieth" target="_blank" rel="noopener noreferrer"
+                           className="text-secondary-900 hover:text-accent-500 transition bg-primary-800 rounded p-3">
                             <FaXTwitter size={24}/>
                         </a>
-                        <a href="https://medium.com/@logicagentai" target="_blank" rel="noopener noreferrer"
-                           className="text-secondary-700 hover:text-accent-500 transition bg-primary-800 rounded p-3">
+                        <a href="https://medium.com/" target="_blank" rel="noopener noreferrer"
+                           className="text-secondary-900 hover:text-accent-500 transition bg-primary-800 rounded p-3">
                             <FaMedium size={24}/>
                         </a>
                     </div>

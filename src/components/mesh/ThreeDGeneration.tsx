@@ -33,18 +33,27 @@ const ThreeDGeneration: React.FC = () => {
 
     const alert = useAlert();
     const router = useRouter();
+    const eventName = task?.taskIdRefine || task?.taskIdPreview || null;
 
     useEffect(() => {
-        if (!task?.taskIdPreview && !task?.taskIdRefine) return;
-        const socket = io("wss://api.cypherai.app/");
-        const eventName = task.taskIdRefine || task.taskIdPreview!;
-        socket.on(eventName, (data: { status: string }) => {
-            setTask((t) => t ? {...t, state: data.status} : t);
+        if (!eventName) return;
+
+        const socket = io("wss://api.cypherai.app");
+
+        socket.on(eventName, (data: { status: string; message?: string }) => {
+            setTask(t => t ? {...t, state: data.status} : t);
+
+            if (["done", "SUCCEEDED"].includes(data.status)) {
+                setIsLoading(false);
+            }
         });
+
         return () => {
+            socket.off(eventName);
             socket.disconnect();
         };
-    }, [task]);
+    }, [eventName]);
+
 
     const handleChange = (field: keyof ThreeDGenerationForm, value: string) =>
         setForm((f) => ({...f, [field]: value}));
@@ -79,7 +88,7 @@ const ThreeDGeneration: React.FC = () => {
         <div className="text-white w-full">
             <div className="flex w-full">
                 <div
-                    className="w-[200px] md:w-[280px] lg:w-[320px] flex flex-col bg-background-light h-[calc(100vh-4rem)] md:h-screen border-x border-secondary-200">
+                    className="w-[200px] md:w-[280px] lg:w-[320px] flex flex-col bg-background-light h-[calc(100vh-4rem)] lg:h-screen border-x border-secondary-200">
                     <div className="flex flex-col h-full">
                         <div className="flex flex-col flex-1 overflow-hidden">
                             <h2 className="md:text-xl font-semibold p-4 border-b border-secondary-200">
@@ -150,7 +159,6 @@ const ThreeDGeneration: React.FC = () => {
                             <h3 className="md:text-xl font-semibold whitespace-nowrap mr-4">
                                 Generation Result
                             </h3>
-                            <div className="h-px w-32 bg-secondary-200"/>
                         </div>
                         <div className="w-full rounded-lg min-h-[50vh] flex items-center justify-center">
                             {waitingForResult ? (

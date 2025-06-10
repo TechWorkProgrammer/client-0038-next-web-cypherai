@@ -39,7 +39,7 @@ const Header: React.FC = () => {
     const headerBg = isNavOpen
         ? "bg-primary-900 shadow-lg"
         : isScrolled
-            ? "bg-primary-900 shadow-lg"
+            ? "bg-primary-900 bg-opacity-90 shadow-lg"
             : "bg-transparent";
 
     return (
@@ -68,7 +68,7 @@ const Header: React.FC = () => {
                             </span>
                         </button>
 
-                        <ul className="flex space-x-6">
+                        <ul className="flex space-x-2 md:space-x-6">
                             {navItems.map((item) => (
                                 <li key={item.label}>
                                     {item.path.startsWith("http") ? (
@@ -83,7 +83,7 @@ const Header: React.FC = () => {
                                     ) : (
                                         <Link
                                             href={item.path}
-                                            className="text-white font-semibold text-sm hover:text-accent-500 transition-colors"
+                                            className="text-white font-semibold text-sm md:text-md lg:text-lg hover:text-accent-500 transition-colors"
                                             onClick={() => handleNavigation(item.path)}
                                         >
                                             {item.label}

@@ -1,11 +1,9 @@
 import React from "react";
-import {
-    FaTelegram,
-} from "react-icons/fa";
 import {FaMedium, FaXTwitter} from "react-icons/fa6";
 import Link from "next/link";
 import Image from "next/image";
 import {useRouter} from "next/router";
+import { RiTelegram2Fill } from "react-icons/ri";
 
 const quickLinks = [
     {label: "About", path: "#about"},
@@ -18,7 +16,7 @@ const Footer: React.FC = () => {
     const router = useRouter();
     return (
         <footer className="relative w-full text-secondary py-10">
-            <div className="container mx-auto px-6 lg:px-16 z-2">
+            <div className="container mx-auto px-4 lg:px-16 z-2">
                 <div className="flex flex-col lg:flex-row justify-between items-start gap-4">
                     <div className="text-left">
                         <button
@@ -41,7 +39,7 @@ const Footer: React.FC = () => {
                         </button>
                     </div>
                     <div className="text-left">
-                        <ul className="flex flex-row space-x-4 items-end mt-12">
+                        <ul className="flex flex-row space-x-4 items-end md:mt-12">
                             {quickLinks.map((item, index) => (
                                 <li key={index}>
                                     <Link
@@ -58,16 +56,16 @@ const Footer: React.FC = () => {
                         </ul>
                     </div>
                 </div>
-                <div className="mt-2 border-t border-secondary-700 pt-12 text-center flex flex-row justify-between">
+                <div className="mt-2 border-t border-secondary-700 pt-4 md:pt-12 md:text-center flex flex-row justify-between">
                     <p className="text-md text-secondary-500">
                         © 2025 CypherAI. All Rights Reserved.
                     </p>
                     <div className="flex space-x-4">
-                        <a href="https://x.com/cypheraieth" target="_blank" rel="noopener noreferrer"
+                        <a href="https://t.me/" target="_blank" rel="noopener noreferrer"
                            className="text-secondary-400 hover:text-accent-500 transition">
-                            <FaTelegram size={24}/>
+                            <RiTelegram2Fill size={24}/>
                         </a>
-                        <a href="https://x.com/" target="_blank" rel="noopener noreferrer"
+                        <a href="https://x.com/cypheraieth" target="_blank" rel="noopener noreferrer"
                            className="text-secondary-400 hover:text-accent-500 transition">
                             <FaXTwitter size={24}/>
                         </a>

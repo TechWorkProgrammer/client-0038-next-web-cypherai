@@ -13,7 +13,7 @@ const Home: React.FC = () => {
     return (
         <>
             <Header/>
-            <main className="flex-grow subpixel-antialiased mb-24 bg-portrait-repeat">
+            <main className="flex-grow subpixel-antialiased mb-24 bg-portrait-repeat overflow-hidden">
                 <Banner/>
                 <PromptExample/>
                 <ProductionSection/>

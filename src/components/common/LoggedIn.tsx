@@ -115,7 +115,7 @@ const LoggedInComponent: React.FC<LoggedInComponentProps> = ({
     };
 
     return (
-        <div className="w-full p-4 max-w-xl xl:min-w-[28rem]">
+        <div className="w-full p-4 min-w-[20rem] xl:min-w-[28rem]">
             <div className="flex flex-col items-start justify-start w-full">
                 <div className="flex items-center w-full space-x-3">
                     <div className="relative">

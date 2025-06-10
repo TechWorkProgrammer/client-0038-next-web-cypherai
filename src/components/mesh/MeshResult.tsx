@@ -11,7 +11,7 @@ import MeshDetails from "@/components/mesh/MeshDetails";
 import Missing from "@/components/Missing";
 import api from "@/utils/axios";
 
-const SOCKET_URL = "wss://api.logicai.technology/";
+const SOCKET_URL = "wss://api.cypherai.app/";
 interface MeshResultProps {
     id?: string;
     embedded?: boolean;
@@ -92,9 +92,7 @@ const MeshResult: React.FC<MeshResultProps> = ({id, embedded = false}) => {
     ].filter((link) => link.previewUrl || link.refineUrl);
 
     const createdAt = new Date(mesh.createdAt);
-    const now = new Date();
-    const timeDifference = (now.getTime() - createdAt.getTime()) / (1000 * 60 * 60);
-    const isRefining = !mesh.refineImage && mesh.taskIdRefine && timeDifference < 2;
+    const isRefining = !mesh.refineImage && mesh.taskIdRefine;
     const version = mesh.aiVersion === "master" ? "V2" : "V1";
 
     return (
@@ -107,7 +105,7 @@ const MeshResult: React.FC<MeshResultProps> = ({id, embedded = false}) => {
                 <div className="absolute bottom-5 right-5 text-center mb-4 font-semibold">
                     <p className="text-lg font-bold bg-accent-400 rounded text-black px-2">{version}</p>
                     {isRefining && (
-                        <p className="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-md inline-block mt-1">
+                        <p className="bg-accent-400 text-black text-xs font-bold px-2 py-1 rounded inline-block mt-1">
                             Refining...
                         </p>
                     )}

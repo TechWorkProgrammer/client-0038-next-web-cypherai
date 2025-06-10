@@ -14,7 +14,7 @@ interface Props {
 
 const Alert: React.FC<Props> = ({alerts, removeAlert}) => (
     <div
-        className="fixed bottom-8 right-5 left-5 left-auto md:right-8 flex flex-col gap-4 z-[9999] max-w-xl mx-0"
+        className="fixed bottom-8 right-5 left-5 left-auto ml-5 md:right-8 flex flex-col gap-4 z-[9999] max-w-xl mx-0"
     >
         {alerts.map((alert) => {
             const getStyles = () => {

@@ -1,9 +1,9 @@
 import React from "react";
 import {motion} from "framer-motion";
-import {FaRegCompass, FaMagic} from "react-icons/fa";
 import {useRouter} from "next/router";
 import Button from "@/components/common/Button";
 import ImageInfiniteSlider from "@/components/common/ImageInfiniteSlider";
+import Icon from "@/components/common/Icon";
 
 const scrollingImages = [
     "/assets/ai/dall-e-alien-creature.webp",
@@ -25,18 +25,18 @@ const ProductionSection = () => {
     return (
         <motion.section
             id="product"
-            className="flex flex-col w-full h-screen overflow-hidden text-white items-center justify-center"
+            className="flex flex-col w-full h-full text-white items-center justify-center"
             initial={{opacity: 0}}
             whileInView={{opacity: 1}}
             viewport={{once: false}}
             transition={{duration: 0.8}}
         >
             <div
-                className="relative z-10 flex flex-col items-center justify-center w-full max-w-4xl min-h-[50vh] text-center mx-auto px-6 py-12 md:px-12 lg:px-18 gap-4">
-                <h1 className="text-3xl md:text-5xl font-extrabold text-white leading-tight">
+                className="relative z-10 flex flex-col items-center justify-center w-full max-w-4xl min-h-[50vh] text-center mx-auto px-6 py-12 md:px-12 lg:px-18 gap-4 overflow-hidden">
+                <h1 className="text-2xl md:text-4xl lg:text-6xl font-extrabold text-white leading-tight">
                     From Concept to Reality.
                 </h1>
-                <h1 className="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-accent-600 to-accent-400">
+                <h1 className="text-2xl md:text-4xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-accent-600 to-accent-400">
                     CypherAI
                 </h1>
                 <p className="mt-4 text-base md:text-lg lg:text-xl text-secondary-800">
@@ -48,7 +48,10 @@ const ProductionSection = () => {
                     <Button
                         label="Discovery"
                         onClick={() => router.push("/discover")}
-                        icon={<FaRegCompass/>}
+                        icon={<Icon
+                            name="apps"
+                            className="w-5 h-5 text-white"
+                        />}
                         iconPosition="left"
                         color="secondary"
                         fullWidth={false}
@@ -56,7 +59,10 @@ const ProductionSection = () => {
                     <Button
                         label="Generate"
                         onClick={() => router.push("/service")}
-                        icon={<FaMagic/>}
+                        icon={<Icon
+                            name="magic-pencil"
+                            className="w-5 h-5 text-black"
+                        />}
                         iconPosition="left"
                         color="primary"
                         fullWidth={false}
@@ -70,7 +76,7 @@ const ProductionSection = () => {
                     speed={20}
                     direction="right"
                     imageWidth={300}
-                    imageHeight={420}
+                    imageHeight={380}
                     gap={16}
                 />
             </div>

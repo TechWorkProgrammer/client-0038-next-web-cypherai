@@ -34,7 +34,7 @@
       "purpose": "any maskable"
     }
   ],
-  "theme_color": "#0B0F19",
+  "theme_color": "#F9C664",
   "background_color": "#FFFFFF",
   "display": "standalone",
   "start_url": "/",
@@ -49,15 +49,15 @@
       "icons": [{ "src": "/icon.png", "sizes": "96x96", "type": "image/png" }]
     },
     {
-      "name": "Features",
-      "short_name": "Features",
-      "url": "/feature",
+      "name": "Service",
+      "short_name": "Service",
+      "url": "/service",
       "icons": [{ "src": "/icon.png", "sizes": "96x96", "type": "image/png" }]
     },
     {
-      "name": "Discovery",
-      "short_name": "Discovery",
-      "url": "/discovery",
+      "name": "Discover",
+      "short_name": "Discover",
+      "url": "/discover",
       "icons": [{ "src": "/icon.png", "sizes": "96x96", "type": "image/png" }]
     },
     {

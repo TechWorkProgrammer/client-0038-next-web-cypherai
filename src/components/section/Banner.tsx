@@ -14,7 +14,7 @@ const Banner: React.FC = () => {
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 1, ease: "easeOut"}}
             >
-                <div className="w-full lg:w-1/2 text-center space-y-2 md:space-y-6">
+                <div className="w-full lg:w-1/2 text-center space-y-2 md:space-y-6 px-2 md:px-6">
                     <h1 className="text-3xl md:text-5xl font-extrabold text-white text-center drop-shadow-lg mb-2">
                         Unlock Your Full Potential
                     </h1>

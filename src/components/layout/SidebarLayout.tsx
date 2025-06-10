@@ -57,7 +57,7 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({children}) => {
                 </div>
 
             </header>
-            <div className="pt-16 md:pt-0 flex">
+            <div className="pt-16 lg:pt-0 flex">
                 <div className="hidden lg:block">
                     <Sidebar variant="desktop" isMinimized={isMinimized}/>
                 </div>

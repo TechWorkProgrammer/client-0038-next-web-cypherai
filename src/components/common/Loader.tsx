@@ -18,7 +18,7 @@ const Loader: React.FC<LoaderProps> = ({size = "medium"}) => {
     return (
         <div role="status" className={`flex justify-center items-center ${sizeClass}`}>
             <Image
-                src="/assets/gif/loader.gif"
+                src="/assets/gif/loader2-transparent.gif"
                 alt="Loading..."
                 width={sizeValue}
                 height={sizeValue}

@@ -11,7 +11,7 @@ const StudioSection = () => {
     return (
         <motion.section
             id="studio"
-            className="relative flex flex-col lg:flex-row items-center justify-center lg:justify-between text-white min-h-[40vh] lg:min-h-[95vh] px-6 lg:px-36 py-12 lg:py-24 gap-8"
+            className="relative flex flex-col lg:flex-row items-center justify-center lg:justify-between text-white min-h-[40vh] lg:min-h-[95vh] px-6 py-12 lg:py-24 gap-8"
             initial={{opacity: 0}}
             whileInView={{opacity: 1}}
             viewport={{once: true}}
@@ -76,9 +76,8 @@ const StudioSection = () => {
                     <Image
                         src="/assets/images/studio.webp"
                         alt="3D Creation"
-                        width={1659}
-                        height={2058}
-                        style={{objectFit: "cover"}}
+                        fill
+                        className="object-cover w-full h-full"
                         priority
                     />
                 </motion.div>

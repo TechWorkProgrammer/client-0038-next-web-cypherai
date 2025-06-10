@@ -56,11 +56,18 @@ const MusicResult: React.FC<MusicResultProps> = ({id, embedded = false}) => {
         }
     }, [finalId, loader, alert]);
 
+    const hasFetchedRef = useRef(false);
+
     useEffect(() => {
-        if (router.isReady && finalId && !music && !fetchError) {
+        if (
+            router.isReady &&
+            finalId &&
+            !hasFetchedRef.current
+        ) {
             fetchMusic().then();
+            hasFetchedRef.current = true;
         }
-    }, [finalId, router.isReady, music, fetchError, fetchMusic]);
+    }, [router.isReady, finalId, fetchMusic]);
 
 
     const updateTime = useCallback(() => {

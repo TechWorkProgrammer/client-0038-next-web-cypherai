@@ -57,7 +57,6 @@ const NFTGeneration: React.FC = () => {
                         </div>
                         <div className="flex items-center w-fit mb-4">
                             <h3 className="md:text-xl font-semibold whitespace-nowrap mr-4">Generation Result</h3>
-                            <div className="h-px w-32 bg-secondary-200"/>
                         </div>
                         <div className="w-full rounded-lg min-h-[70vh]">
                             <NFTExample/>

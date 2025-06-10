@@ -13,20 +13,25 @@ const MusicAssets: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const alert = useAlert();
 
-    const fetchUserMusic = useCallback(async () => {
+    const fetchData = useCallback(async () => {
+        setIsLoading(true);
         try {
             const response = await api.get(`/music/user`);
             setMusicList(response.data.data);
         } catch (error: any) {
-            alert(error.response?.data?.message || "Failed to fetch music data.", "error");
+            alert(
+                "Opps...",
+                error.response?.data?.message || "Failed to fetch music data.",
+                "error"
+            );
         } finally {
             setIsLoading(false);
         }
     }, [alert]);
 
     useEffect(() => {
-        fetchUserMusic().then();
-    }, [fetchUserMusic]);
+        fetchData().then();
+    }, [fetchData]);
 
     const sortedMusicList = [...musicList].sort(
         (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
@@ -53,8 +58,6 @@ const MusicAssets: React.FC = () => {
     return (
         <div className="w-full h-full flex flex-col gap-4 relative justify-between">
             <div className="flex flex-col gap-4 md:px-2">
-                <h2 className="text-2xl font-bold text-center text-white">My Music Assets</h2>
-
                 {currentMusic.map((music) => (
                     <MusicListItem key={music.id} music={music}/>
                 ))}

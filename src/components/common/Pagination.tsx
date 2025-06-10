@@ -50,7 +50,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
 
     return (
-        <div className="flex flex-col items-center mt-6 space-y-4">
+        <div className="w-full flex flex-row items-end justify-between mt-6 space-y-4">
             <div className="flex items-center space-x-2">
                 <button
                     className={`w-9 h-9 flex items-center justify-center rounded-lg transition ${
@@ -72,7 +72,7 @@ const Pagination: React.FC<PaginationProps> = ({
                             key={index}
                             className={`w-9 h-9 rounded-lg font-medium transition ${
                                 currentPage === page
-                                    ? "bg-accent-500 text-white shadow-md"
+                                    ? "bg-accent-400 text-white shadow-md"
                                     : "bg-primary-800 text-secondary-400 hover:bg-primary-700"
                             }`}
                             onClick={() => setCurrentPage(Number(page))}
