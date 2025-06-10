@@ -1,7 +1,8 @@
-import React, {useRef, useEffect} from "react";
+import React, {useRef, useEffect, useState} from "react";
 import * as THREE from "three";
 import {GLTFLoader} from "three-stdlib";
 import {OrbitControls} from "three-stdlib";
+import Loader from "@/components/common/Loader";
 
 type ModelViewerProps = {
     modelUrl?: string;
@@ -9,32 +10,43 @@ type ModelViewerProps = {
 
 const MeshViewer: React.FC<ModelViewerProps> = ({modelUrl}) => {
     const mountRef = useRef<HTMLDivElement | null>(null);
+    const [isModelLoading, setIsModelLoading] = useState(true);
 
     useEffect(() => {
         if (!mountRef.current) return;
         const currentMount = mountRef.current;
-        if (!currentMount) return;
-
-        const width = currentMount.clientWidth;
-        const height = currentMount.clientHeight;
 
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xaaaaaa);
-
-        const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
-        camera.position.set(0, 2, 5);
-
-        const renderer = new THREE.WebGLRenderer({antialias: true});
-        renderer.setSize(width, height);
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.5;
+        scene.background = null;
+        const renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+        renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
+        renderer.shadowMap.enabled = false;
         currentMount.appendChild(renderer.domElement);
 
-        const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-        scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
-        directionalLight.position.set(5, 5, 5);
-        scene.add(directionalLight);
+        const camera = new THREE.PerspectiveCamera(
+            60,
+            currentMount.clientWidth / currentMount.clientHeight,
+            0.1,
+            1000
+        );
+        camera.position.set(0, 2, 5);
+
+        const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1.0);
+        hemi.position.set(0, 20, 0);
+        scene.add(hemi);
+
+
+        scene.add(new THREE.AmbientLight(0xffffff, 2.0));
+        const createPoint = (x: number, y: number, z: number, intensity = 0.6) => {
+            const light = new THREE.PointLight(0xffffff, intensity);
+            light.position.set(x, y, z);
+            scene.add(light);
+        };
+        createPoint(5, 5, 5, 0.6);
+        createPoint(-5, 5, 5, 0.6);
+        createPoint(5, 5, -5, 0.6);
+        createPoint(-5, 5, -5, 0.6);
+        createPoint(0, 10, 0, 0.8);
 
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.autoRotate = true;
@@ -42,26 +54,42 @@ const MeshViewer: React.FC<ModelViewerProps> = ({modelUrl}) => {
         controls.enablePan = true;
         controls.enableZoom = true;
 
+        const size = 100;
+        const divisions = 10;
+        const grid = new THREE.GridHelper(size, divisions, 0x888888, 0x888888);
+        grid.material.opacity = 0.2;
+        grid.material.transparent = true;
+        scene.add(grid);
+
         if (modelUrl) {
             const loader = new GLTFLoader();
             loader.load(
                 modelUrl,
                 (gltf) => {
-                    gltf.scene.position.set(0, 0, 0);
-                    scene.add(gltf.scene);
+                    const root = gltf.scene;
+                    const bbox = new THREE.Box3().setFromObject(root);
+                    const center = bbox.getCenter(new THREE.Vector3());
+                    root.position.x -= center.x;
+                    root.position.z -= center.z;
+                    root.position.y -= bbox.min.y;
+
+                    scene.add(root);
+                    setIsModelLoading(false);
                 },
                 undefined,
-                (error) => {
-                    console.error("Error loading model:", error);
+                (err) => {
+                    console.error("Error loading model:", err);
+                    setIsModelLoading(false);
                 }
             );
+        } else {
+            setIsModelLoading(false);
         }
 
         const handleResize = () => {
-            const newWidth = currentMount.clientWidth;
-            const newHeight = currentMount.clientHeight;
-            renderer.setSize(newWidth, newHeight);
-            camera.aspect = newWidth / newHeight;
+            if (!mountRef.current) return;
+            renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
+            camera.aspect = mountRef.current.clientWidth / mountRef.current.clientHeight;
             camera.updateProjectionMatrix();
         };
         window.addEventListener("resize", handleResize);
@@ -80,7 +108,15 @@ const MeshViewer: React.FC<ModelViewerProps> = ({modelUrl}) => {
         };
     }, [modelUrl]);
 
-    return <div ref={mountRef} className="w-full h-full max-h-[70vh]"/>;
+    return (
+        <div ref={mountRef} className="relative w-full h-full max-h-[70vh]">
+            {isModelLoading && (
+                <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/50">
+                    <Loader size="large"/>
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default MeshViewer;

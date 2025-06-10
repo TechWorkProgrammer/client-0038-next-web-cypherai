@@ -12,10 +12,12 @@ import Missing from "@/components/Missing";
 import api from "@/utils/axios";
 
 const SOCKET_URL = "wss://api.cypherai.app/";
+
 interface MeshResultProps {
     id?: string;
     embedded?: boolean;
 }
+
 const MeshResult: React.FC<MeshResultProps> = ({id, embedded = false}) => {
     const router = useRouter();
     const queryId = router.query.id;
@@ -78,7 +80,10 @@ const MeshResult: React.FC<MeshResultProps> = ({id, embedded = false}) => {
 
     if (error || !finalId) return embedded ? null : <Missing/>;
 
-    if (!mesh) return embedded ? <Loader/> : null;
+    if (!mesh) return embedded ? <Loader/> : <Missing/>;
+
+    const isRefining = !mesh.refineImage && mesh.taskIdRefine;
+    if (isRefining) setUseColor(false);
 
     const modelUrl = useColor ? mesh.modelGlbRefine : mesh.modelGlbPreview;
     const videoUrl = useColor ? mesh.videoRefine : mesh.videoPreview;
@@ -92,14 +97,13 @@ const MeshResult: React.FC<MeshResultProps> = ({id, embedded = false}) => {
     ].filter((link) => link.previewUrl || link.refineUrl);
 
     const createdAt = new Date(mesh.createdAt);
-    const isRefining = !mesh.refineImage && mesh.taskIdRefine;
     const version = mesh.aiVersion === "master" ? "V2" : "V1";
 
     return (
         <div className="w-full flex flex-col items-center relative pt-2 md:pt-0">
             <div
                 className={`relative w-full aspect-video bg-primary-800 rounded overflow-hidden shadow-xl ${
-                    isRefining ? "animate-pulse" : ""
+                    isRefining ? "" : ""
                 } max-h-[70vh]`}
             >
                 <div className="absolute bottom-5 right-5 text-center mb-4 font-semibold">
@@ -111,9 +115,7 @@ const MeshResult: React.FC<MeshResultProps> = ({id, embedded = false}) => {
                     )}
                 </div>
                 <div className="absolute top-4 left-4 flex space-x-3 z-10">
-                    {mesh.refineImage !== null && mesh.previewImage !== null && (
-                        <ColorToggle useColor={useColor} toggleColor={() => setUseColor((prev) => !prev)}/>
-                    )}
+                    <ColorToggle useColor={useColor} toggleColor={() => setUseColor((prev) => !prev)}/>
                     <ViewToggle
                         viewMode={viewMode}
                         setViewMode={(mode) => {
