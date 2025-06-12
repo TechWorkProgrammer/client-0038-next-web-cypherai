@@ -23,6 +23,7 @@ const Loader: React.FC<LoaderProps> = ({size = "medium"}) => {
                 width={sizeValue}
                 height={sizeValue}
                 priority
+                unoptimized
             />
             <span className="sr-only">Loading...</span>
         </div>

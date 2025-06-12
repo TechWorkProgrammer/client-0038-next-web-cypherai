@@ -5,14 +5,6 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: "https",
-                hostname: "logicai.technology",
-            },
-            {
-                protocol: "https",
-                hostname: "api.logicai.technology",
-            },
-            {
-                protocol: "https",
                 hostname: "cypherai.app",
             },
             {

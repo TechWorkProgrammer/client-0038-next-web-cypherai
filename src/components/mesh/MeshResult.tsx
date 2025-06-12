@@ -28,6 +28,7 @@ const MeshResult: React.FC<MeshResultProps> = ({id, embedded = false}) => {
     const [useColor, setUseColor] = useState(true);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [isRefining, setIsRefining] = useState(false);
     const [socket, setSocket] = useState<any>(null);
 
     useEffect(() => {
@@ -49,9 +50,37 @@ const MeshResult: React.FC<MeshResultProps> = ({id, embedded = false}) => {
     }, [finalId]);
 
     useEffect(() => {
-        if (!mesh || !socket) return;
-        const isRefining = !mesh.refineImage && mesh.taskIdRefine;
-        if (!isRefining) return;
+        if (!mesh || mesh.taskIdRefine) return;
+
+        const interval = setInterval(() => {
+            api.get(`/mesh/result/${finalId}`)
+                .then((response) => {
+                    const updatedMesh = response.data.data;
+                    setMesh(updatedMesh);
+                    if (updatedMesh.taskIdRefine) {
+                        clearInterval(interval);
+                    }
+                })
+                .catch(() => {
+                });
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, [mesh, finalId]);
+
+
+    useEffect(() => {
+        if (!mesh) return;
+
+        const refining = !mesh.refineImage && mesh.taskIdRefine;
+        setIsRefining(refining);
+        if (refining) {
+            setUseColor(false);
+        }
+    }, [mesh]);
+
+    useEffect(() => {
+        if (!mesh || !socket || !mesh.taskIdRefine) return;
 
         const eventName = mesh.taskIdRefine;
         const listener = (data: { status: string; message: string }) => {
@@ -68,7 +97,7 @@ const MeshResult: React.FC<MeshResultProps> = ({id, embedded = false}) => {
         return () => {
             socket.off(eventName, listener);
         };
-    }, [mesh, socket, finalId]);
+    }, [mesh, socket, finalId, isRefining]);
 
     if (loading) {
         return (
@@ -81,9 +110,6 @@ const MeshResult: React.FC<MeshResultProps> = ({id, embedded = false}) => {
     if (error || !finalId) return embedded ? null : <Missing/>;
 
     if (!mesh) return embedded ? <Loader/> : <Missing/>;
-
-    const isRefining = !mesh.refineImage && mesh.taskIdRefine;
-    if (isRefining) setUseColor(false);
 
     const modelUrl = useColor ? mesh.modelGlbRefine : mesh.modelGlbPreview;
     const videoUrl = useColor ? mesh.videoRefine : mesh.videoPreview;
