@@ -1,8 +1,8 @@
-import React, {useRef, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import * as THREE from "three";
-import {GLTFLoader} from "three-stdlib";
-import {OrbitControls} from "three-stdlib";
+import {GLTFLoader, OrbitControls} from "three-stdlib";
 import Loader from "@/components/common/Loader";
+import {useAlert} from "@/context/Alert";
 
 type ModelViewerProps = {
     modelUrl?: string;
@@ -11,8 +11,9 @@ type ModelViewerProps = {
 const MeshViewer: React.FC<ModelViewerProps> = ({modelUrl}) => {
     const mountRef = useRef<HTMLDivElement | null>(null);
     const [isModelLoading, setIsModelLoading] = useState(true);
+    const alert = useAlert();
 
-    useEffect(() => {
+    const renderObject = useCallback(async () => {
         if (!mountRef.current) return;
         const currentMount = mountRef.current;
 
@@ -36,7 +37,7 @@ const MeshViewer: React.FC<ModelViewerProps> = ({modelUrl}) => {
         scene.add(hemi);
 
 
-        scene.add(new THREE.AmbientLight(0xffffff, 2.0));
+        scene.add(new THREE.AmbientLight(0xffffff, 1.0));
         const createPoint = (x: number, y: number, z: number, intensity = 0.6) => {
             const light = new THREE.PointLight(0xffffff, intensity);
             light.position.set(x, y, z);
@@ -49,15 +50,15 @@ const MeshViewer: React.FC<ModelViewerProps> = ({modelUrl}) => {
         createPoint(0, 10, 0, 0.8);
 
         const controls = new OrbitControls(camera, renderer.domElement);
-        controls.autoRotate = true;
+        controls.autoRotate = false;
         controls.autoRotateSpeed = 1;
         controls.enablePan = true;
         controls.enableZoom = true;
 
-        const size = 100;
-        const divisions = 10;
+        const size = 50;
+        const divisions = 3;
         const grid = new THREE.GridHelper(size, divisions, 0x888888, 0x888888);
-        grid.material.opacity = 0.2;
+        grid.material.opacity = 0.1;
         grid.material.transparent = true;
         scene.add(grid);
 
@@ -78,7 +79,7 @@ const MeshViewer: React.FC<ModelViewerProps> = ({modelUrl}) => {
                 },
                 undefined,
                 (err) => {
-                    console.error("Error loading model:", err);
+                    alert("Opps...", "Error loading model: " + err.message, "error");
                     setIsModelLoading(false);
                 }
             );
@@ -106,7 +107,12 @@ const MeshViewer: React.FC<ModelViewerProps> = ({modelUrl}) => {
             currentMount.removeChild(renderer.domElement);
             renderer.dispose();
         };
-    }, [modelUrl]);
+    }, [modelUrl, alert]);
+
+    useEffect(() => {
+        renderObject().then();
+    }, [renderObject]);
+
 
     return (
         <div ref={mountRef} className="relative w-full h-full max-h-[70vh]">

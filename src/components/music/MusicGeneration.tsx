@@ -41,17 +41,26 @@ const MusicGeneration: React.FC = () => {
 
     const alert = useAlert();
     const router = useRouter();
+    const eventName = task?.taskId || null;
+
     useEffect(() => {
-        if (!task?.taskId) return;
-        const socket = io(`wss://api.cypherai.app/`);
-        const listener = (data: { status: string }) => {
-            setTask((t) => t ? {...t, state: data.status} : t);
-        };
-        socket.on(task.taskId, listener);
+        if (!eventName) return;
+
+        const socket = io("wss://api.cypherai.app");
+
+        socket.on(eventName, (data: { status: string; message?: string }) => {
+            setTask(t => t ? {...t, state: data.status} : t);
+
+            if (["done", "SUCCEEDED"].includes(data.status)) {
+                setIsLoading(false);
+            }
+        });
+
         return () => {
+            socket.off(eventName);
             socket.disconnect();
         };
-    }, [task]);
+    }, [eventName]);
 
     const handleChange = (field: keyof MusicGenerationForm, value: string) =>
         setForm((f) => ({...f, [field]: value}));
@@ -89,6 +98,7 @@ const MusicGeneration: React.FC = () => {
         } catch (err: any) {
             alert("Generation Failed", err.response?.data?.message || "Try again later.", "error");
         } finally {
+            setIsLoading(false);
         }
     };
 
@@ -104,8 +114,7 @@ const MusicGeneration: React.FC = () => {
         ...genresToShow.filter((g) => !selectedGenres.includes(g)),
     ];
 
-    const waitingForResult =
-        isLoading || (task != null && !["done", "SUCCEEDED"].includes(task.state));
+    const waitingForResult = isLoading || (task != null && !["done", "SUCCEEDED"].includes(task.state));
 
     return (
         <div className="text-white w-full">
