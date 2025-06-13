@@ -1,10 +1,10 @@
 import axios, {InternalAxiosRequestConfig, AxiosError} from 'axios';
 import {
+    forceLogout,
     getAccessToken,
     getRefreshToken,
     updateTokens,
 } from '@/utils/user';
-import {disconnectWallet} from "@/utils/wallet";
 
 const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -69,7 +69,7 @@ api.interceptors.response.use(
                     })
                     .catch((refreshErr) => {
                         processQueue(refreshErr, null);
-                        disconnectWallet().then();
+                        forceLogout();
                         reject(refreshErr);
                     })
                     .finally(() => {

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from "react";
+import React, {useEffect, useState, useCallback, useRef} from "react";
 import {useAlert} from "@/context/Alert";
 import {MusicData} from "@/types/music";
 import MusicListItem from "@/components/music/MusicListItem";
@@ -29,7 +29,10 @@ const MusicAssets: React.FC = () => {
         }
     }, [alert]);
 
+    const assetsFetch = useRef(false);
     useEffect(() => {
+        if (assetsFetch.current) return;
+        assetsFetch.current = true;
         fetchData().then();
     }, [fetchData]);
 

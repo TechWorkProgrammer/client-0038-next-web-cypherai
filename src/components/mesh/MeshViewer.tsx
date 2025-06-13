@@ -32,22 +32,26 @@ const MeshViewer: React.FC<ModelViewerProps> = ({modelUrl}) => {
         );
         camera.position.set(0, 2, 5);
 
-        const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1.0);
-        hemi.position.set(0, 20, 0);
-        scene.add(hemi);
-
-
         scene.add(new THREE.AmbientLight(0xffffff, 1.0));
-        const createPoint = (x: number, y: number, z: number, intensity = 0.6) => {
-            const light = new THREE.PointLight(0xffffff, intensity);
-            light.position.set(x, y, z);
-            scene.add(light);
-        };
-        createPoint(5, 5, 5, 0.6);
-        createPoint(-5, 5, 5, 0.6);
-        createPoint(5, 5, -5, 0.6);
-        createPoint(-5, 5, -5, 0.6);
-        createPoint(0, 10, 0, 0.8);
+
+        const directions = [
+            [5, 10, 5],
+            [-5, 10, 5],
+            [5, 10, -5],
+            [-5, 10, -5],
+            [0, 10, 0],
+            [0, -10, 0],
+            [5, -10, 5],
+            [-5, -10, 5],
+            [5, -10, -5],
+            [-5, -10, -5]
+        ];
+
+        for (const [x, y, z] of directions) {
+            const dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            dirLight.position.set(x, y, z);
+            scene.add(dirLight);
+        }
 
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.autoRotate = false;
@@ -56,7 +60,7 @@ const MeshViewer: React.FC<ModelViewerProps> = ({modelUrl}) => {
         controls.enableZoom = true;
 
         const size = 50;
-        const divisions = 3;
+        const divisions = 1;
         const grid = new THREE.GridHelper(size, divisions, 0x888888, 0x888888);
         grid.material.opacity = 0.1;
         grid.material.transparent = true;
@@ -106,9 +110,9 @@ const MeshViewer: React.FC<ModelViewerProps> = ({modelUrl}) => {
             window.removeEventListener("resize", handleResize);
             currentMount.removeChild(renderer.domElement);
             renderer.dispose();
+            controls.dispose();
         };
     }, [modelUrl, alert]);
-
     useEffect(() => {
         renderObject().then();
     }, [renderObject]);

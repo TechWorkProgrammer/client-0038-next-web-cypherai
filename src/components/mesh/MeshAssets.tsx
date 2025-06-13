@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {useAlert} from "@/context/Alert";
 import {MeshData} from "@/types/mesh";
 import MeshCard from "@/components/mesh/MeshCard";
@@ -24,8 +24,10 @@ const MeshAssets: React.FC = () => {
             setIsLoading(false);
         }
     }, [alert]);
-
+    const assetsFetch = useRef(false);
     useEffect(() => {
+        if (assetsFetch.current) return;
+        assetsFetch.current = true;
         fetchData().then();
     }, [fetchData]);
 

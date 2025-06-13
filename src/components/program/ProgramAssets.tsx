@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {useAlert} from "@/context/Alert";
 import Pagination from "@/components/common/Pagination";
 import Loader from "@/components/common/Loader";
@@ -29,7 +29,10 @@ const MusicAssets: React.FC = () => {
         }
     }, [alert]);
 
+    const assetsFetch = useRef(false);
     useEffect(() => {
+        if (assetsFetch.current) return;
+        assetsFetch.current = true;
         fetchData().then();
     }, [fetchData]);
 

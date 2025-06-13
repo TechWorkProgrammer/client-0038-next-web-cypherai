@@ -25,7 +25,7 @@ const MeshResult: React.FC<MeshResultProps> = ({id, embedded = false}) => {
 
     const [mesh, setMesh] = useState<any>(null);
     const [viewMode, setViewMode] = useState<"canvas" | "video" | "image">("canvas");
-    const [useColor, setUseColor] = useState(true);
+    const [useColor, setUseColor] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [isRefining, setIsRefining] = useState(false);
@@ -51,11 +51,14 @@ const MeshResult: React.FC<MeshResultProps> = ({id, embedded = false}) => {
 
     useEffect(() => {
         if (!mesh || mesh.taskIdRefine) return;
+        if (!finalId) return;
 
+        let active = true;
         const interval = setInterval(() => {
             api.get(`/mesh/result/${finalId}`)
-                .then((response) => {
-                    const updatedMesh = response.data.data;
+                .then((res) => {
+                    if (!active) return;
+                    const updatedMesh = res.data.data;
                     setMesh(updatedMesh);
                     if (updatedMesh.taskIdRefine) {
                         clearInterval(interval);
@@ -65,7 +68,10 @@ const MeshResult: React.FC<MeshResultProps> = ({id, embedded = false}) => {
                 });
         }, 5000);
 
-        return () => clearInterval(interval);
+        return () => {
+            active = false;
+            clearInterval(interval);
+        };
     }, [mesh, finalId]);
 
 
@@ -74,9 +80,8 @@ const MeshResult: React.FC<MeshResultProps> = ({id, embedded = false}) => {
 
         const refining = !mesh.refineImage && mesh.taskIdRefine;
         setIsRefining(refining);
-        if (refining) {
-            setUseColor(false);
-        }
+        if (refining) setUseColor(false);
+        else setUseColor(true);
     }, [mesh]);
 
     useEffect(() => {
@@ -141,7 +146,9 @@ const MeshResult: React.FC<MeshResultProps> = ({id, embedded = false}) => {
                     )}
                 </div>
                 <div className="absolute top-4 left-4 flex space-x-3 z-10">
-                    <ColorToggle useColor={useColor} toggleColor={() => setUseColor((prev) => !prev)}/>
+                    {!isRefining && (
+                        <ColorToggle useColor={useColor} toggleColor={() => setUseColor((prev) => !prev)}/>
+                    )}
                     <ViewToggle
                         viewMode={viewMode}
                         setViewMode={(mode) => {
@@ -151,7 +158,7 @@ const MeshResult: React.FC<MeshResultProps> = ({id, embedded = false}) => {
                     />
                 </div>
 
-                {viewMode === "canvas" && modelUrl && <MeshViewer modelUrl={modelUrl}/>}
+                {viewMode === "canvas" && modelUrl && (<MeshViewer key={modelUrl} modelUrl={modelUrl}/>)}
                 {viewMode === "video" && videoUrl && <MeshVideo videoUrl={videoUrl}/>}
                 {viewMode === "image" && imageUrl && <MeshImage imageUrl={imageUrl} altText="Mesh Preview"/>}
             </div>
