@@ -10,6 +10,7 @@ const quickLinks = [
     {label: "Product", path: "#product"},
     {label: "Studio", path: "#studio"},
     {label: "Pricing", path: "#pricing"},
+    {label: "Documentation", path: "https://docs.cypherai.app/"},
 ];
 
 const Footer: React.FC = () => {
